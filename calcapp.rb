@@ -38,4 +38,19 @@ post '/names' do
 	firstname = params[:firstname]
 	lastname = params[:lastname]
 	success = params[:success]
+	redirect '/calc?firstname=' + firstname + "&lastname=" + lastname
+end
+
+get'/calc' do
+	firstname = params[:firstname]
+	lastname = params[:lastname]
+	erb :calc, locals:{firstname: firstname, lastname: lastname}
+end
+
+post '/calculator' do
+	firstname = params[:firstname]
+	lastname = params[:lastname]
+	num1 = params[:num1]
+	num2 = params[:num2]
+	function = params[:function]
 end
