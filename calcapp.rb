@@ -1,4 +1,5 @@
 require "sinatra"
+require_relative "calcfunctions.rb"
 
 
 get '/' do
@@ -47,10 +48,32 @@ get'/calc' do
 	erb :calc, locals:{firstname: firstname, lastname: lastname}
 end
 
-post '/calculator' do
+post '/calc' do
 	firstname = params[:firstname]
 	lastname = params[:lastname]
 	num1 = params[:num1]
 	num2 = params[:num2]
 	function = params[:function]
+	outcome = math(function, num1.to_i, num2.to_i)
+	oc = outcome.to_s
+	redirect '/answer?firstname=' + firstname + "&lastname=" + lastname + "&num1=" + num1 + "&num2=" + num2 + "&function=" + function + "&oc=" + oc
+end
+
+get '/answer' do
+	firstname = params[:firstname]
+	lastname = params[:lastname]
+	num1 = params[:num1]
+	num2 = params[:num2]
+	function = params[:function]
+	oc = params[:oc]
+	if function == "add"
+		function = "+"
+	end
+	erb :answer, locals:{firstname: firstname, lastname: lastname, num1: num1, num2: num2, function: function, oc: oc}
+end
+
+post '/answer' do
+	firstname = params[:firstname]
+	lastname = params[:lastname]
+	redirect '/calc?firstname=' + firstname + "&lastname=" + lastname
 end
