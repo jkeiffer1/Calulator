@@ -45,7 +45,8 @@ end
 get'/calc' do
 	firstname = params[:firstname]
 	lastname = params[:lastname]
-	erb :calc, locals:{firstname: firstname, lastname: lastname}
+	msg = params[:msg]
+	erb :calc, locals:{firstname: firstname, lastname: lastname, msg: msg}
 end
 
 post '/calc' do
@@ -54,9 +55,14 @@ post '/calc' do
 	num1 = params[:num1]
 	num2 = params[:num2]
 	function = params[:function]
+		if num2.to_i == 0
+			msg = "cannot divide by zero, pls try again"
+			redirect '/calc?firstname=' + firstname + "&lastname=" + lastname + "&msg=" + msg
+		else
 	outcome = math(function, num1.to_i, num2.to_i)
 	oc = outcome.to_s
 	redirect '/answer?firstname=' + firstname + "&lastname=" + lastname + "&num1=" + num1 + "&num2=" + num2 + "&function=" + function + "&oc=" + oc
+	end
 end
 
 get '/answer' do
