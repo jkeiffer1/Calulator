@@ -4,30 +4,58 @@ require_relative "calcfunctions.rb"
 
 get '/' do
 	message = params[:message]
-	erb :login, locals:{message: message}
+	newusername = params[:newusername]
+	newpassword = params[:newpassword]
+	erb :login, locals:{message: message, newusername: newusername, newpassword: newpassword}
+end
+
+get'/thiswontwork' do
+	"hi there"
 end
 
 post '/login' do
-	correct_login = {jkeiffer: "1234", scstew: "4321", ldeems: "1233"}
+	correct_login = {'jkeiffer' => "1234", 'scstew' => "4321", 'ldeems' => "1233"}
 	username = params[:username]
 	password = params[:password]
+	newusername = params[:newusername]
+	newpassword = params[:newpassword]
+	correct_login.store(newusername, newpassword)
 	message = "Incorrect Username or Password, please try again."
 	success = "Login Successful"
-	correct_login.each_pair do |key, value|
-		if username == key.to_s && password == value
+	#{}"#{correct_login} #{newusername} newuser,new pass is #{newpassword}"
+	#p "#{correct_login} correctlog"
+	#p "#{loginhash} loghash"
+	#p loginhash.class
+	 correct_login.each_pair do |key, value|
+	# 	p "#{key}#{value}"
+		if username == key && password == value
 			redirect '/name?success=' + success
-		elsif username == key.to_s
+		elsif username == key
 			message = "Incorrect password!"
-			redirect '/?message=' + message
+			redirect '/?message=' + message + "&newusername=" + newusername + "&newpassword=" + newpassword
 		elsif password == value
 			message = "Incorrect username!"
-			redirect '/?message=' + message
-		else
-			message = "Incorrect username and password!"
-			redirect '/?message=' + message
+			redirect '/?message=' + message + "&newusername=" + newusername + "&newpassword=" + newpassword
 		end
+		message = "Incorrect username and password!"
+		redirect '/?message=' + message + "&newusername=" + newusername + "&newpassword=" + newpassword
 	
-	end
+	 end
+end
+
+post '/create' do
+	redirect '/create'
+end
+
+get '/create' do
+	erb :create
+end
+
+post '/createnew' do
+	newusername = params[:username]
+	newpassword = params[:password]
+	#p "#{newusername} newuser, #{newpassword} newpass"
+	redirect '/?newusername=' + newusername + "&newpassword=" + newpassword
 end
 
 get '/name' do

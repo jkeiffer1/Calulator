@@ -5,5 +5,15 @@ Please enter username and password</center></h1>
 <center><form method = "post" action = "login">
 Username <input type = "text" name = "username" required>
 Password <input type = "password" name = "password" required>
+<input type = "hidden" name = "newusername" value = <%=newusername%>>
+<input type = "hidden" name = "newpassword" value = <%=newpassword%>>
 	<input type = "submit" value = "enter">
 </form></center>
+
+<center><form method = "post" action = "create">
+<input type = "hidden" name = "newusername">
+<input type = "hidden" name = "newpassword">
+<input type = "submit" value = "Create New">
+</form></center>
+
+
